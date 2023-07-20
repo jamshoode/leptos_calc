@@ -4,14 +4,15 @@ use leptos::*;
 pub fn Calculator(cx: Scope,) -> impl IntoView {
     let (res, set_res) = create_signal(cx, "0".to_string());
     let (first, set_first) = create_signal(cx, String::new());
+    let (first_number, set_first_number) = create_signal(cx, String::new());
     let (second, set_second) = create_signal(cx, String::new());
     let (sign, set_sign) = create_signal(cx, String::new());
 
     fn calculate(first: String, second: String, sign: String) -> String {
         let result;
 
-        let first: i32 = first.trim().parse().unwrap();
-        let second: i32 = second.trim().parse().unwrap();
+        let first: u32 = first.trim().parse().unwrap();
+        let second: u32 = second.trim().parse().unwrap();
 
         match sign.trim() {
             "+" => result = first + second,
@@ -27,21 +28,40 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
     view! { cx,
       <section class="calculator">
             <div class="res">
-                <p>{res}</p>
+                <div class="lastOperand">
+                    <p class="first">{first_number}</p>
+                    <p class="sign">{sign}</p>
+                </div>
+                <div class="res__inner">
+                    <p class="result">{res}</p>
+                </div>
             </div>
             <div class="navs">
                 <div class="left">
                     <div class="buttons clearbtns">
-                        <button on:click=move |_| set_res.update(|res| *res = "0".to_string())>"AD"</button>
-                        <button on:click=move |_| set_res.update(|res| {
-                            if *res != "0" {
-                                if res.len() > 1 {
-                                    *res = res[0..res.len() - 1].to_string();
-                                } else {
-                                    *res = "0".to_string();
+                        <button on:click=move |_| {
+                            set_res.update(|res| *res = "0".to_string());
+                            set_first.update(|first| *first = String::new());
+                            set_first_number.update(|first_number| *first_number = String::new());
+                            set_second.update(|second| *second = String::new());
+                            set_sign.update(|sign| *sign = String::new());
+                        }>"AD"</button>
+                        <button on:click=move |_| {
+                            set_res.update(|res| {
+                                if *res != "0" {
+                                    if res.len() > 1 {
+                                        *res = res[0..res.len() - 1].to_string();
+                                    } else {
+                                        *res = "0".to_string();
+                                    }
                                 }
-                            }
-                        })>"DE"</button>
+                            });
+                            if sign.get().len() == 0 {
+                                set_first.update(|first| *first = first[0..first.len() - 1].to_string());
+                            } else {
+                                set_second.update(|second| *second = second[0..second.len() - 1].to_string());
+                            };
+                        }>"DE"</button>
                     </div>
                     <div class="buttons numbers">
                         <div class="rows row1">
@@ -56,7 +76,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "1".to_string();
@@ -88,7 +108,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "2".to_string();
@@ -120,7 +140,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "3".to_string();
@@ -154,7 +174,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "4".to_string();
@@ -186,7 +206,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "5".to_string();
@@ -218,7 +238,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "6".to_string();
@@ -252,7 +272,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "7".to_string();
@@ -284,7 +304,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "8".to_string();
@@ -316,7 +336,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "9".to_string();
@@ -351,7 +371,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                                 });
 
-                                if sign.get().len() != 0 {
+                                if sign.get().len() == 0 {
                                     set_first.update(|first| {
                                         if *first == "0" {
                                             *first = "0".to_string();
@@ -379,14 +399,31 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                             set_sign.update(|sign| *sign = String::new());
                             set_first.update(|first| *first = String::new());
                             set_second.update(|second| *second = String::new());
+                            set_first_number.update(|first_number| *first_number = String::new());
                         }>"="</button>
                     </div>
                 </div>
                 <div class="right">
-                    <button on:click=move |_| set_sign.update(|sign| *sign = "+".to_string())>"+"</button>
-                    <button on:click=move |_| set_sign.update(|sign| *sign = "-".to_string())>"-"</button>
-                    <button on:click=move |_| set_sign.update(|sign| *sign = "*".to_string())>"*"</button>
-                    <button on:click=move |_| set_sign.update(|sign| *sign = "/".to_string())>"/"</button>
+                    <button on:click=move |_| {
+                        set_sign.update(|sign| *sign = "+".to_string());
+                        set_first_number.update(|first_number| *first_number = first.get());
+                        set_res.update(|res| *res = String::new());
+                    }>"+"</button>
+                    <button on:click=move |_| {
+                        set_sign.update(|sign| *sign = "-".to_string());
+                        set_first_number.update(|first_number| *first_number = first.get());
+                        set_res.update(|res| *res = String::new());
+                    }>"-"</button>
+                    <button on:click=move |_| {
+                        set_sign.update(|sign| *sign = "*".to_string());
+                        set_first_number.update(|first_number| *first_number = first.get());
+                        set_res.update(|res| *res = String::new());
+                    }>"*"</button>
+                    <button on:click=move |_| {
+                        set_sign.update(|sign| *sign = "/".to_string());
+                        set_first_number.update(|first_number| *first_number = first.get());
+                        set_res.update(|res| *res = String::new());
+                    }>"/"</button>
                 </div>
             </div>
         </section>

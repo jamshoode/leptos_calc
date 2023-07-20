@@ -11,14 +11,15 @@
 }
 
 .res {
-    height: 50px;
+    height: 100px;
 
     text-align: right;
 
 }
 
-.res p {
+.result {
     margin-right: 5px;
+    height: 60px;
     
     font-size: 20px;
 }
@@ -54,4 +55,19 @@ button:hover {
 
 .equals {
     width: 100px;
+}
+
+.lastOperand {
+    height: 40px;
+
+}
+
+.first {
+    font-size: 10px;
+
+    margin-right: 5px;
+}
+
+.sign {
+    font-size: 9px;
 }
