@@ -3,10 +3,12 @@ use leptos::*;
 #[component]
 pub fn Calculator(cx: Scope,) -> impl IntoView {
     let (res, set_res) = create_signal(cx, "0".to_string());
+    let (result, set_result) = create_signal(cx, String::new());
     let (first, set_first) = create_signal(cx, String::new());
     let (first_number, set_first_number) = create_signal(cx, String::new());
     let (second, set_second) = create_signal(cx, String::new());
     let (sign, set_sign) = create_signal(cx, String::new());
+    let (state, set_state) = create_signal(cx, false);
 
     fn calculate(first: String, second: String, sign: String) -> String {
         let result;
@@ -33,7 +35,9 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                     <p class="sign">{sign}</p>
                 </div>
                 <div class="res__inner">
-                    <p class="result">{res}</p>
+                    <p class="result">{
+                        move || if res.get().len() == 0 {result} else {res}
+                    }</p>
                 </div>
             </div>
             <div class="navs">
@@ -48,6 +52,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                         }>"AD"</button>
                         <button on:click=move |_| {
                             set_res.update(|res| {
+                                "0".to_string();
                                 if *res != "0" {
                                     if res.len() > 1 {
                                         *res = res[0..res.len() - 1].to_string();
@@ -66,6 +71,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                     <div class="buttons numbers">
                         <div class="rows row1">
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -98,6 +105,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>1</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -130,6 +139,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>2</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -164,6 +175,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                         </div>
                         <div class="rows row2">
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -196,6 +209,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>4</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -228,6 +243,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>5</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -262,6 +279,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                         </div>
                         <div class="rows row3">
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -294,6 +313,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>7</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -326,6 +347,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>8</button>
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -361,6 +384,8 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                     </div>
                     <div class="buttons lr">
                             <button on:click=move |_| {
+                                set_result.update(|result| *result = String::new());
+                                set_state.update(|state| *state = false);
                                 set_res.update(|res| {
 
                                     if *res == "0" {
@@ -393,8 +418,10 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
 
                             }>0</button>                       
                         <button class="equals" on:click=move |_| {
-                            set_res.update(|res| {
-                                *res = calculate(first.get(), second.get(), sign.get());
+                            set_state.update(|state| *state = true);
+                            set_res.update(|res| *res = String::new());
+                            set_result.update(|result| {
+                                *result = calculate(first.get(), second.get(), sign.get());
                             });
                             set_sign.update(|sign| *sign = String::new());
                             set_first.update(|first| *first = String::new());

@@ -552,12 +552,12 @@ imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
 imports.wbg.__wbindgen_throw = function(arg0, arg1) {
     throw new Error(getStringFromWasm0(arg0, arg1));
 };
-imports.wbg.__wbindgen_closure_wrapper544 = function(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 114, __wbg_adapter_18);
+imports.wbg.__wbindgen_closure_wrapper636 = function(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 119, __wbg_adapter_18);
     return addHeapObject(ret);
 };
-imports.wbg.__wbindgen_closure_wrapper1747 = function(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 241, __wbg_adapter_21);
+imports.wbg.__wbindgen_closure_wrapper1868 = function(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 246, __wbg_adapter_21);
     return addHeapObject(ret);
 };
 
@@ -598,7 +598,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL('leptos_calc-b9b738dfb3a76bd_bg.wasm', import.meta.url);
+        input = new URL('leptos_calc-f690793794315517_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 
