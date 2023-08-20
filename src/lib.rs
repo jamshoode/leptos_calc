@@ -27,15 +27,41 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
         result.to_string()
     }
 
-    let button_click = move |name: &str| {
+    let ad = move || {
+        set_res.update(|res| *res = "0".to_string());
+        set_first.update(|first| *first = String::new());
+        set_first_number.update(|first_number| *first_number = String::new());
+        set_second.update(|second| *second = String::new());
+        set_sign.update(|sign| *sign = String::new());
+    };
+
+    let de = move || {
+        set_res.update(|res| {
+            "0".to_string();
+            if *res != "0" {
+                if res.len() > 1 {
+                    *res = res[0..res.len() - 1].to_string();
+                } else {
+                    *res = "0".to_string();
+                }
+            }
+        });
+        if sign.get().len() == 0 {
+            set_first.update(|first| *first = first[0..first.len() - 1].to_string());
+        } else {
+            set_second.update(|second| *second = second[0..second.len() - 1].to_string());
+        };
+    };
+
+    let button_click = move |value: &str| {
         set_result.update(|result| *result = String::new());
         set_state.update(|state| *state = false);
         set_res.update(|res| {
 
             if *res == "0" {
-                *res = name.clone().to_string();
+                *res = value.clone().to_string();
             } else {
-                *res += name.clone();
+                *res += value.clone();
             }
 
         });
@@ -43,18 +69,18 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
         if sign.get().len() == 0 {
             set_first.update(|first| {
                 if *first == "0" {
-                    *first = name.clone().to_string();
+                    *first = value.clone().to_string();
                 } else {
-                    *first += name.clone();
+                    *first += value.clone();
                 }
 
             })
         } else {
-            set_second.update(|first| {
-                if *first == "0" {
-                    *first = name.clone().to_string();
+            set_second.update(|second| {
+                if *second == "0" {
+                    *second = value.clone().to_string();
                 } else {
-                    *first += name;
+                    *second += value;
                 }
 
             })
@@ -77,30 +103,8 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
             <div class="navs">
                 <div class="left">
                     <div class="buttons clearbtns">
-                        <button on:click=move |_| {
-                            set_res.update(|res| *res = "0".to_string());
-                            set_first.update(|first| *first = String::new());
-                            set_first_number.update(|first_number| *first_number = String::new());
-                            set_second.update(|second| *second = String::new());
-                            set_sign.update(|sign| *sign = String::new());
-                        }>"AD"</button>
-                        <button on:click=move |_| {
-                            set_res.update(|res| {
-                                "0".to_string();
-                                if *res != "0" {
-                                    if res.len() > 1 {
-                                        *res = res[0..res.len() - 1].to_string();
-                                    } else {
-                                        *res = "0".to_string();
-                                    }
-                                }
-                            });
-                            if sign.get().len() == 0 {
-                                set_first.update(|first| *first = first[0..first.len() - 1].to_string());
-                            } else {
-                                set_second.update(|second| *second = second[0..second.len() - 1].to_string());
-                            };
-                        }>"DE"</button>
+                        <button on:click=move |_| ad()>"AD"</button>
+                        <button on:click=move |_| de()>"DE"</button>
                     </div>
                     <div class="buttons numbers">
                         <div class="rows row1">
