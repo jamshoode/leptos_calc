@@ -1,5 +1,5 @@
-use leptos_calc::Calculator;
 use leptos::*;
+use leptos_calc::Calculator;
 
 pub fn main() {
     _ = console_log::init_with_level(log::Level::Debug);

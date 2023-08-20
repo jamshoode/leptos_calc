@@ -1,14 +1,14 @@
 use leptos::*;
 
 #[component]
-pub fn Calculator(cx: Scope,) -> impl IntoView {
+pub fn Calculator(cx: Scope) -> impl IntoView {
     let (res, set_res) = create_signal(cx, "0".to_string());
     let (result, set_result) = create_signal(cx, String::new());
     let (first, set_first) = create_signal(cx, String::new());
     let (first_number, set_first_number) = create_signal(cx, String::new());
     let (second, set_second) = create_signal(cx, String::new());
     let (sign, set_sign) = create_signal(cx, String::new());
-    let (state, set_state) = create_signal(cx, false);
+    let (_, set_state) = create_signal(cx, false);
 
     fn calculate(first: String, second: String, sign: String) -> String {
         let result;
@@ -21,11 +21,45 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
             "-" => result = first - second,
             "*" => result = first * second,
             "/" => result = first / second,
-            _ => result = 0
+            _ => result = 0,
         };
 
         result.to_string()
     }
+
+    let button_click = move |name: &str| {
+        set_result.update(|result| *result = String::new());
+        set_state.update(|state| *state = false);
+        set_res.update(|res| {
+
+            if *res == "0" {
+                *res = name.clone().to_string();
+            } else {
+                *res += name.clone();
+            }
+
+        });
+
+        if sign.get().len() == 0 {
+            set_first.update(|first| {
+                if *first == "0" {
+                    *first = name.clone().to_string();
+                } else {
+                    *first += name.clone();
+                }
+
+            })
+        } else {
+            set_second.update(|first| {
+                if *first == "0" {
+                    *first = name.clone().to_string();
+                } else {
+                    *first += name;
+                }
+
+            })
+        };
+    };
 
     view! { cx,
       <section class="calculator">
@@ -70,316 +104,19 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                     </div>
                     <div class="buttons numbers">
                         <div class="rows row1">
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "1".to_string();
-                                    } else {
-                                        *res += "1";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "1".to_string();
-                                        } else {
-                                            *first += "1";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "1".to_string();
-                                        } else {
-                                            *first += "1";
-                                        }
-
-                                    })
-                                };
-
-                            }>1</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "2".to_string();
-                                    } else {
-                                        *res += "2";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "2".to_string();
-                                        } else {
-                                            *first += "2";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "2".to_string();
-                                        } else {
-                                            *first += "2";
-                                        }
-
-                                    })
-                                };
-
-                            }>2</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "3".to_string();
-                                    } else {
-                                        *res += "3";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "3".to_string();
-                                        } else {
-                                            *first += "3";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "3".to_string();
-                                        } else {
-                                            *first += "3";
-                                        }
-
-                                    })
-                                };
-
-                            }>3</button>
+                            <button on:click=move |_| button_click("1")>1</button>
+                            <button on:click=move |_| button_click("2")>2</button>
+                            <button on:click=move |_| button_click("3")>3</button>
                         </div>
                         <div class="rows row2">
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "4".to_string();
-                                    } else {
-                                        *res += "4";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "4".to_string();
-                                        } else {
-                                            *first += "4";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "4".to_string();
-                                        } else {
-                                            *first += "4";
-                                        }
-
-                                    })
-                                };
-
-                            }>4</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "5".to_string();
-                                    } else {
-                                        *res += "5";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "5".to_string();
-                                        } else {
-                                            *first += "5";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "5".to_string();
-                                        } else {
-                                            *first += "5";
-                                        }
-
-                                    })
-                                };
-
-                            }>5</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "6".to_string();
-                                    } else {
-                                        *res += "6";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "6".to_string();
-                                        } else {
-                                            *first += "6";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "6".to_string();
-                                        } else {
-                                            *first += "6";
-                                        }
-
-                                    })
-                                };
-
-                            }>6</button>                       
+                            <button on:click=move |_| button_click("4")>4</button>
+                            <button on:click=move |_| button_click("5")>5</button>
+                            <button on:click=move |_| button_click("6")>6</button>
                         </div>
                         <div class="rows row3">
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "7".to_string();
-                                    } else {
-                                        *res += "7";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "7".to_string();
-                                        } else {
-                                            *first += "7";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "7".to_string();
-                                        } else {
-                                            *first += "7";
-                                        }
-
-                                    })
-                                };
-
-                            }>7</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "8".to_string();
-                                    } else {
-                                        *res += "8";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "8".to_string();
-                                        } else {
-                                            *first += "8";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "8".to_string();
-                                        } else {
-                                            *first += "8";
-                                        }
-
-                                    })
-                                };
-
-                            }>8</button>
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "9".to_string();
-                                    } else {
-                                        *res += "9";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "9".to_string();
-                                        } else {
-                                            *first += "9";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "9".to_string();
-                                        } else {
-                                            *first += "9";
-                                        }
-
-                                    })
-                                };
-
-                            }>9</button>                       
+                            <button on:click=move |_| button_click("7")>7</button>
+                            <button on:click=move |_| button_click("8")>8</button>
+                            <button on:click=move |_| button_click("9")>9</button>
                         </div>
                     </div>
                     <div class="buttons lr">
@@ -416,7 +153,7 @@ pub fn Calculator(cx: Scope,) -> impl IntoView {
                                     })
                                 };
 
-                            }>0</button>                       
+                            }>0</button>
                         <button class="equals" on:click=move |_| {
                             set_state.update(|state| *state = true);
                             set_res.update(|res| *res = String::new());
