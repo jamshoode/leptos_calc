@@ -10,8 +10,6 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
     let (sign, set_sign) = create_signal(cx, String::new());
     let (_, set_state) = create_signal(cx, false);
 
-    println!("Hello, world!");
-
     fn calculate(first: String, second: String, sign: String) -> String {
         let result;
 
