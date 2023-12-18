@@ -124,40 +124,7 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
                         </div>
                     </div>
                     <div class="buttons lr">
-                            <button on:click=move |_| {
-                                set_result.update(|result| *result = String::new());
-                                set_state.update(|state| *state = false);
-                                set_res.update(|res| {
-
-                                    if *res == "0" {
-                                        *res = "0".to_string();
-                                    } else {
-                                        *res += "0";
-                                    }
-
-                                });
-
-                                if sign.get().len() == 0 {
-                                    set_first.update(|first| {
-                                        if *first == "0" {
-                                            *first = "0".to_string();
-                                        } else {
-                                            *first += "0";
-                                        }
-
-                                    })
-                                } else {
-                                    set_second.update(|first| {
-                                        if *first == "0" {
-                                            *first = "0".to_string();
-                                        } else {
-                                            *first += "0";
-                                        }
-
-                                    })
-                                };
-
-                            }>0</button>
+                        <button on:click=move |_| button_click("0")>0</button>
                         <button class="equals" on:click=move |_| {
                             set_state.update(|state| *state = true);
                             set_res.update(|res| *res = String::new());
@@ -173,9 +140,18 @@ pub fn Calculator(cx: Scope) -> impl IntoView {
                 </div>
                 <div class="right">
                     <button on:click=move |_| {
-                        set_sign.update(|sign| *sign = "+".to_string());
-                        set_first_number.update(|first_number| *first_number = first.get());
-                        set_res.update(|res| *res = String::new());
+                        if sign.get().len() != 0 {
+                            set_sign.update(|sign| *sign = "+".to_string());
+                            set_first_number.update(|first_number| {
+                                *first_number = calculate(first.get(), second.get(), sign.get());
+                            });
+                            set_first.update(|st| *st = first_number.get());
+                            set_res.update(|res| *res = String::new());
+                        } else {
+                            set_sign.update(|sign| *sign = "+".to_string());
+                            set_first_number.update(|first_number| *first_number = first.get());
+                            set_res.update(|res| *res = String::new());
+                        }
                     }>"+"</button>
                     <button on:click=move |_| {
                         set_sign.update(|sign| *sign = "-".to_string());
